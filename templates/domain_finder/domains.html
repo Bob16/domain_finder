@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Domains for Sale - Domain Finder{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center space-y-4 mb-12">
+            <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 w-fit mx-auto">
+                🏆 Premium Domains
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold">
+                Domains for Sale
+            </h1>
+            <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Discover our curated collection of premium domains available for purchase. Each domain has been carefully selected for its commercial potential and brandability.
+            </p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div class="text-center p-6 rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div class="text-3xl font-bold text-primary mb-2">{{ domain_count }}+</div>
+                <div class="text-sm text-muted-foreground">Premium Domains Available</div>
+            </div>
+            <div class="text-center p-6 rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div class="text-3xl font-bold text-green-600 mb-2">{% if price_range %}{{ price_range }}{% else %}Contact Us{% endif %}</div>
+                <div class="text-sm text-muted-foreground">Price Range</div>
+            </div>
+            <div class="text-center p-6 rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div class="text-3xl font-bold text-blue-600 mb-2">24h</div>
+                <div class="text-sm text-muted-foreground">Transfer Support</div>
+            </div>
+        </div>
+
+        <!-- Domains Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="domains-grid">
+            {% for domain in domains %}
+            <!-- {{ domain.name }} -->
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent {{ domain.status_badge_class }}">
+                            {{ domain.display_status }}
+                        </div>
+                        <div class="text-2xl font-bold text-primary">{{ domain.formatted_price }}</div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3">{{ domain.name }}</h3>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        {{ domain.description }}
+                    </p>
+                    
+                    {% if domain.features_list %}
+                    <div class="space-y-3 mb-6">
+                        {% for feature in domain.features_list %}
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>{{ feature }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if domain.should_show_contact_button %}
+                    <a href="{% url 'domain_finder:contact' %}" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        Contact for Details
+                    </a>
+                    {% else %}
+                    <a href="{{ domain.listing_url }}" target="_blank" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        {{ domain.view_button_text }}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <!-- No domains message -->
+            <div class="col-span-full text-center py-12">
+                <div class="text-gray-400 text-6xl mb-4">🏗️</div>
+                <h3 class="text-lg font-semibold mb-2">No Domains Available</h3>
+                <p class="text-muted-foreground">We're currently adding new domains to our collection. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Load More Button -->
+        {% if has_more %}
+        <div class="text-center mt-12" id="load-more-section">
+            <button id="load-more-btn" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 rounded-md px-8">
+                <span id="load-more-text">Load More Domains</span>
+                <svg id="load-more-spinner" class="hidden ml-2 h-4 w-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </button>
+        </div>
+        {% endif %}
+
+        <!-- CTA Section -->
+        <div class="mt-16 text-center p-8 rounded-lg bg-muted/30 border border-border">
+            <h2 class="text-2xl font-bold mb-4">Need Help Choosing the Right Domain?</h2>
+            <p class="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                Our domain experts can help you evaluate these domains and find the perfect match for your business needs. Get personalized recommendations and market analysis.
+            </p>
+            <a href="{% url 'domain_finder:contact' %}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                Get Expert Consultation
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const loadMoreText = document.getElementById('load-more-text');
+    const loadMoreSpinner = document.getElementById('load-more-spinner');
+    const domainsGrid = document.getElementById('domains-grid');
+    const loadMoreSection = document.getElementById('load-more-section');
+    
+    let currentOffset = {{ domains_per_page }};
+    let isLoading = false;
+    
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            if (isLoading) return;
+            
+            isLoading = true;
+            loadMoreText.textContent = 'Loading...';
+            loadMoreSpinner.classList.remove('hidden');
+            loadMoreBtn.disabled = true;
+            
+            fetch(`{% url 'domain_finder:load_more_domains' %}?offset=${currentOffset}&limit={{ domains_per_page }}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Create domain cards for each new domain
+                        data.domains.forEach(domain => {
+                            const domainCard = createDomainCard(domain);
+                            domainsGrid.appendChild(domainCard);
+                        });
+                        
+                        currentOffset += data.domains.length;
+                        
+                        // Hide load more button if no more domains
+                        if (!data.has_more) {
+                            loadMoreSection.style.display = 'none';
+                        }
+                    } else {
+                        console.error('Error loading more domains:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    isLoading = false;
+                    loadMoreText.textContent = 'Load More Domains';
+                    loadMoreSpinner.classList.add('hidden');
+                    loadMoreBtn.disabled = false;
+                });
+        });
+    }
+    
+    function createDomainCard(domain) {
+        const card = document.createElement('div');
+        card.className = 'rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300';
+        
+        let featuresHtml = '';
+        if (domain.features_list && domain.features_list.length > 0) {
+            featuresHtml = `
+                <div class="space-y-3 mb-6">
+                    ${domain.features_list.map(feature => `
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>${feature}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        const actionButton = domain.should_show_contact_button ? `
+            <a href="{% url 'domain_finder:contact' %}" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                Contact for Details
+            </a>
+        ` : `
+            <a href="${domain.listing_url}" target="_blank" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                ${domain.view_button_text}
+            </a>
+        `;
+        
+        card.innerHTML = `
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent ${domain.status_badge_class}">
+                        ${domain.display_status}
+                    </div>
+                    <div class="text-2xl font-bold text-primary">${domain.formatted_price}</div>
+                </div>
+                
+                <h3 class="text-xl font-bold mb-3">${domain.name}</h3>
+                <p class="text-muted-foreground text-sm mb-4">
+                    ${domain.description}
+                </p>
+                
+                ${featuresHtml}
+                
+                ${actionButton}
+            </div>
+        `;
+        
+        return card;
+    }
+});
+</script>
+{% endblock %}

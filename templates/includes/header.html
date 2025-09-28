@@ -1,0 +1,80 @@
+{% load static %}
+
+<header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center h-16">
+      <!-- Logo -->
+      <a href="{% url 'domain_finder:home' %}" class="flex items-center space-x-3">
+        <div class="relative">
+          <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg blur opacity-20"></div>
+          <div class="relative rounded-lg p-2" style="background-color: var(--primary);">
+            <!-- Custom Star Icon -->
+            <svg viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6 text-white">
+              <path d="M12 2C12.7956 2 13.5587 2.31607 14.1213 2.87868C14.6839 3.44129 15 4.20435 15 5C15 5.79565 14.6839 6.55871 14.1213 7.12132C13.5587 7.68393 12.7956 8 12 8C11.2044 8 10.4413 7.68393 9.87868 7.12132C9.31607 6.55871 9 5.79565 9 5C9 4.20435 9.31607 3.44129 9.87868 2.87868C10.4413 2.31607 11.2044 2 12 2Z" />
+              <path d="M22 12C22 12.7956 21.6839 13.5587 21.1213 14.1213C20.5587 14.6839 19.7956 15 19 15C18.2044 15 17.4413 14.6839 16.8787 14.1213C16.3161 13.5587 16 12.7956 16 12C16 11.2044 16.3161 10.4413 16.8787 9.87868C17.4413 9.31607 18.2044 9 19 9C19.7956 9 20.5587 9.31607 21.1213 9.87868C21.6839 10.4413 22 11.2044 22 12Z" />
+              <path d="M12 16C12.7956 16 13.5587 16.3161 14.1213 16.8787C14.6839 17.4413 15 18.2044 15 19C15 19.7956 14.6839 20.5587 14.1213 21.1213C13.5587 21.6839 12.7956 22 12 22C11.2044 22 10.4413 21.6839 9.87868 21.1213C9.31607 20.5587 9 19.7956 9 19C9 18.2044 9.31607 17.4413 9.87868 16.8787C10.4413 16.3161 11.2044 16 12 16Z" />
+              <path d="M8 12C8 12.7956 7.68393 13.5587 7.12132 14.1213C6.55871 14.6839 5.79565 15 5 15C4.20435 15 3.44129 14.6839 2.87868 14.1213C2.31607 13.5587 2 12.7956 2 12C2 11.2044 2.31607 10.4413 2.87868 9.87868C3.44129 9.31607 4.20435 9 5 9C5.79565 9 6.55871 9.31607 7.12132 9.87868C7.68393 10.4413 8 11.2044 8 12Z" />
+            </svg>
+          </div>
+        </div>
+        <div class="flex flex-col -space-y-1">
+          <span class="text-xl font-bold text-primary">Domain</span>
+          <span class="text-sm text-muted-foreground tracking-wide">FINDER</span>
+        </div>
+      </a>
+
+      <!-- Navigation -->
+<nav class="hidden md:flex items-center space-x-8 flex-1 justify-center">
+    <a href="{% url 'domain_finder:home' %}" 
+       class="transition-colors {% if request.resolver_match.url_name == 'home' %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}">
+        Home
+    </a>
+    <a href="{% url 'domain_finder:domains' %}" 
+       class="transition-colors {% if request.resolver_match.url_name == 'domains' %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}">
+        Domains for Sale
+    </a>
+    <a href="{% url 'domain_finder:blog_list' %}" 
+       class="transition-colors {% if request.resolver_match.url_name == 'blog_list' %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}">
+        Blog
+    </a>
+    <a href="{% url 'domain_finder:contact' %}" 
+       class="transition-colors {% if request.resolver_match.url_name == 'contact' %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}">
+        Contact
+    </a>
+</nav>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button type="button" 
+                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden pb-4">
+      <nav class="flex items-center space-x-6">
+        <a href="{% url 'domain_finder:home' %}" 
+           class="transition-colors {% if request.resolver_match.url_name == 'home' %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}">
+          Home
+        </a>
+        <a href="{% url 'domain_finder:domains' %}" 
+           class="transition-colors {% if request.resolver_match.url_name == 'domains' %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}">
+          Domains
+        </a>
+        <a href="{% url 'domain_finder:blog_list' %}" 
+           class="transition-colors {% if 'blog' in request.resolver_match.url_name %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}">
+          Blog
+        </a>
+        <a href="{% url 'domain_finder:contact' %}" 
+           class="transition-colors {% if request.resolver_match.url_name == 'contact' %}text-primary{% else %}text-muted-foreground hover:text-primary{% endif %}">
+          Contact
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>

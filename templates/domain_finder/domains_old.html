@@ -1,0 +1,339 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Domains for Sale - Domain Finder{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center space-y-4 mb-12">
+            <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 w-fit mx-auto">
+                🏆 Premium Domains
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-bold">
+                Domains for Sale
+            </h1>
+            <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Discover our curated collection of premium domains available for purchase. Each domain has been carefully selected for its commercial potential and brandability.
+            </p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div class="text-center p-6 rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div class="text-3xl font-bold text-primary mb-2">{{ domain_count }}+</div>
+                <div class="text-sm text-muted-foreground">Premium Domains Available</div>
+            </div>
+            <div class="text-center p-6 rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div class="text-3xl font-bold text-green-600 mb-2">{% if price_range %}{{ price_range }}{% else %}Contact Us{% endif %}</div>
+                <div class="text-sm text-muted-foreground">Price Range</div>
+            </div>
+            <div class="text-center p-6 rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div class="text-3xl font-bold text-blue-600 mb-2">24h</div>
+                <div class="text-sm text-muted-foreground">Transfer Support</div>
+            </div>
+        </div>
+
+        <!-- Domains Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for domain in domains %}
+            <!-- {{ domain.name }} -->
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent {{ domain.status_badge_class }}">
+                            {{ domain.display_status }}
+                        </div>
+                        <div class="text-2xl font-bold text-primary">{{ domain.formatted_price }}</div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3">{{ domain.name }}</h3>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        {{ domain.description }}
+                    </p>
+                    
+                    {% if domain.features_list %}
+                    <div class="space-y-3 mb-6">
+                        {% for feature in domain.features_list %}
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>{{ feature }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if domain.godaddy_url %}
+                    <a href="{{ domain.godaddy_url }}" target="_blank" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        View on GoDaddy
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="m18 13 5-5-5-5M13 22V8l-5-5 5-5v6"></path>
+                        </svg>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'domain_finder:contact' %}" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        Contact for Details
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M21 8.5C21 6.01 18.99 4 16.5 4H5.91L9 1L8 0L3.5 4.5L8 9L9 8L5.91 5H16.5C18.44 5 20 6.56 20 8.5V9H21V8.5Z"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <!-- No domains message -->
+            <div class="col-span-full text-center py-12">
+                <div class="text-gray-400 text-6xl mb-4">🏗️</div>
+                <h3 class="text-lg font-semibold mb-2">No Domains Available</h3>
+                <p class="text-muted-foreground">We're currently adding new domains to our collection. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-blue-100 text-blue-800">
+                            Featured
+                        </div>
+                        <div class="text-2xl font-bold text-primary">$3,800</div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3">EcoSolutions.net</h3>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        Ideal for environmental, sustainability, or green technology businesses. Growing market demand.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Trending industry keywords</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>SEO-friendly structure</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Global market appeal</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.godaddy.com/domain-search" target="_blank" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        View on GoDaddy
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="m18 13 5-5-5-5M13 22V8l-5-5 5-5v6"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Domain 3 - FinanceHub.org -->
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-purple-100 text-purple-800">
+                            New
+                        </div>
+                        <div class="text-2xl font-bold text-primary">$7,200</div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3">FinanceHub.org</h3>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        Perfect for financial services, investment platforms, or educational finance websites.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>High-value industry</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Authority domain potential</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Trust-building extension</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.godaddy.com/domain-search" target="_blank" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        View on GoDaddy
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="m18 13 5-5-5-5M13 22V8l-5-5 5-5v6"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Domain 4 - HealthTech.co -->
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-red-100 text-red-800">
+                            Hot
+                        </div>
+                        <div class="text-2xl font-bold text-primary">$15,900</div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3">HealthTech.co</h3>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        Premium domain for health technology companies, medical startups, or digital health platforms.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Booming industry sector</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Modern .co extension</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Investor-friendly domain</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.godaddy.com/domain-search" target="_blank" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        View on GoDaddy
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="m18 13 5-5-5-5M13 22V8l-5-5 5-5v6"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Domain 5 - SmartHome.io -->
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-yellow-100 text-yellow-800">
+                            Trending
+                        </div>
+                        <div class="text-2xl font-bold text-primary">$5,600</div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3">SmartHome.io</h3>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        Perfect for IoT companies, home automation startups, or smart device manufacturers.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Tech-focused .io extension</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Growing market segment</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Startup-friendly branding</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.godaddy.com/domain-search" target="_blank" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        View on GoDaddy
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="m18 13 5-5-5-5M13 22V8l-5-5 5-5v6"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Domain 6 - CryptoExchange.biz -->
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-orange-100 text-orange-800">
+                            Limited
+                        </div>
+                        <div class="text-2xl font-bold text-primary">$22,000</div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3">CryptoExchange.biz</h3>
+                    <p class="text-muted-foreground text-sm mb-4">
+                        Premium domain for cryptocurrency exchanges, blockchain companies, or fintech startups.
+                    </p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>High-value crypto keywords</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Business-focused extension</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <svg class="h-4 w-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <polyline points="20,6 9,17 4,12"></polyline>
+                            </svg>
+                            <span>Exact match domain</span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.godaddy.com/domain-search" target="_blank" class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                        View on GoDaddy
+                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="m18 13 5-5-5-5M13 22V8l-5-5 5-5v6"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-12">
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 rounded-md px-8">
+                Load More Domains
+            </button>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="mt-16 text-center p-8 rounded-lg bg-muted/30 border border-border">
+            <h2 class="text-2xl font-bold mb-4">Need Help Choosing the Right Domain?</h2>
+            <p class="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                Our domain experts can help you evaluate these domains and find the perfect match for your business needs. Get personalized recommendations and market analysis.
+            </p>
+            <a href="{% url 'domain_finder:contact' %}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-11 px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                Get Expert Consultation
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,366 @@
+"""
+Django models for the Domain Finder application.
+"""
+from django.db import models
+from django.urls import reverse
+from django.utils import timezone
+import markdown
+from django.utils.safestring import mark_safe
+
+class HomePage(models.Model):
+    """Homepage hero section content."""
+    title = models.CharField(
+        max_length=200,
+        help_text="Main headline. You can use HTML like <span class='text-primary'>Domain</span>"
+    )
+    subtitle = models.TextField(
+        max_length=500,
+        help_text="Description text below the main headline"
+    )
+    hero_image = models.ImageField(
+        upload_to='homepage/hero/',
+        blank=True,
+        null=True,
+        help_text="Hero image for the homepage. Leave empty to use default image."
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Set to True to use this content on homepage"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Homepage Content"
+        verbose_name_plural = "Homepage Content"
+        ordering = ['-updated_at']
+    
+    def __str__(self):
+        return f"Homepage Content ({'Active' if self.is_active else 'Inactive'})"
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one active homepage content at a time
+        if self.is_active:
+            HomePage.objects.filter(is_active=True).update(is_active=False)
+        super().save(*args, **kwargs)
+
+class BlogCategory(models.Model):
+    """Blog post categories."""
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name_plural = "Blog Categories"
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+class Author(models.Model):
+    """Blog post authors."""
+    name = models.CharField(max_length=100, help_text="Author's full name")
+    bio = models.TextField(
+        max_length=500, 
+        blank=True, 
+        help_text="Author biography. If empty, a default bio will be used."
+    )
+    avatar = models.URLField(
+        max_length=500, 
+        blank=True, 
+        help_text="Author profile image URL. If empty, a default avatar will be used."
+    )
+    email = models.EmailField(blank=True, help_text="Author's email address (optional)")
+    website = models.URLField(blank=True, help_text="Author's personal website (optional)")
+    is_active = models.BooleanField(default=True, help_text="Whether this author is active")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Author"
+        verbose_name_plural = "Authors"
+    
+    def __str__(self):
+        return self.name
+    
+    @property
+    def display_bio(self):
+        """Get author bio with fallback to default text."""
+        if self.bio.strip():
+            return self.bio
+        return f"Domain research expert with over 10 years of experience in digital asset evaluation and market analysis. Specializes in emerging market trends and investment strategies."
+    
+    @property
+    def display_avatar(self):
+        """Get author avatar URL or None for fallback to default."""
+        return self.avatar if self.avatar.strip() else None
+
+class BlogPost(models.Model):
+    """Blog post model."""
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+    author = models.ForeignKey(
+        Author, 
+        on_delete=models.CASCADE, 
+        related_name='blog_posts',
+        help_text="Select the author for this blog post"
+    )
+    excerpt = models.TextField(max_length=500)
+    content = models.TextField()
+    category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, related_name='posts')
+    image_url = models.URLField(max_length=500, blank=True)
+    read_time = models.CharField(max_length=20, default="5 min read")
+    is_featured = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('domain_finder:blog_detail', kwargs={'post_id': self.pk})
+    
+    @property
+    def formatted_date(self):
+        return self.created_at.strftime("%B %d, %Y")
+
+    @property
+    def content_as_markdown(self):
+        """Convert markdown content to HTML."""
+        return mark_safe(markdown.markdown(self.content, extensions=['extra', 'codehilite']))
+
+class ContactSubmission(models.Model):
+    """Contact form submissions."""
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    is_responded = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-submitted_at']
+    
+    def __str__(self):
+        return f"Contact from {self.name} - {self.email}"
+
+class ContactInfo(models.Model):
+    """Contact information for the Get in Touch section."""
+    
+    # Email section
+    email_value = models.EmailField(default="info@domainfinder.com")
+    email_description = models.CharField(max_length=200, default="We typically respond within 24 hours")
+    
+    # Phone section  
+    phone_value = models.CharField(max_length=50, default="+1 (555) 123-4567")
+    phone_description = models.CharField(max_length=200, default="Mon-Fri 9AM-6PM PST")
+    
+    # Address section
+    address_line1 = models.CharField(max_length=200, default="123 Domain Street")
+    address_line2 = models.CharField(max_length=200, default="San Francisco, CA 94105")
+    
+    # SMTP settings for sending emails
+    smtp_email = models.EmailField(
+        blank=True,
+        null=True,
+        help_text="Gmail address for sending emails and receiving contact form messages"
+    )
+    smtp_password = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Gmail App Password (16-character password from Google Account settings)"
+    )
+    
+    # Email branding settings
+    from_email = models.CharField(
+        max_length=255,
+        default="Domain Finder <noreply@domainfinder.uk>",
+        help_text="The 'From' address that appears in outgoing emails. Format: 'Your Business Name <email@domain.com>'"
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    
+    class Meta:
+        verbose_name = "Contact Information"
+        verbose_name_plural = "Contact Information"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Contact Info (Updated: {self.updated_at.strftime('%Y-%m-%d')})"
+    
+    @classmethod
+    def get_active_contact_info(cls):
+        """Get the active contact information."""
+        return cls.objects.filter(is_active=True).first()
+
+
+class DomainStatus(models.Model):
+    """Status categories for domains."""
+    
+    name = models.CharField(max_length=20, unique=True, help_text="Status name (e.g., Premium, Featured)")
+    slug = models.SlugField(max_length=20, unique=True, help_text="URL-friendly version (e.g., premium, featured)")
+    badge_class = models.CharField(
+        max_length=100, 
+        help_text="CSS classes for the status badge (e.g., bg-green-100 text-green-800)",
+        default="bg-gray-100 text-gray-800"
+    )
+    is_active = models.BooleanField(default=True, help_text="Is this status available for selection?")
+    sort_order = models.IntegerField(default=0, help_text="Display order (lower numbers first)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Domain Status"
+        verbose_name_plural = "Domain Statuses"
+        ordering = ['sort_order', 'name']
+    
+    def __str__(self):
+        return self.name
+
+
+class Currency(models.Model):
+    """Currency types for domains."""
+    
+    name = models.CharField(max_length=30, unique=True, help_text="Currency name (e.g., US Dollar, British Pound)")
+    code = models.CharField(max_length=3, unique=True, help_text="Currency code (e.g., USD, GBP, EUR)")
+    symbol = models.CharField(max_length=5, help_text="Currency symbol (e.g., $, £, €)")
+    is_active = models.BooleanField(default=True, help_text="Is this currency available for selection?")
+    sort_order = models.IntegerField(default=0, help_text="Display order (lower numbers first)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Currency"
+        verbose_name_plural = "Currencies"
+        ordering = ['sort_order', 'name']
+    
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
+
+class Domain(models.Model):
+    """Model for domains for sale."""
+    
+    name = models.CharField(
+        max_length=100, 
+        unique=True,
+        help_text="Domain name (e.g., TechStartup.com)"
+    )
+    price = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2,
+        help_text="Price value (e.g., 5000.00)"
+    )
+    currency = models.ForeignKey(
+        Currency,
+        on_delete=models.PROTECT,
+        help_text="Currency for the price",
+        limit_choices_to={'is_active': True},
+        null=True,
+        blank=True
+    )
+    status = models.ForeignKey(
+        DomainStatus,
+        on_delete=models.PROTECT,
+        help_text="Domain status/category",
+        limit_choices_to={'is_active': True}
+    )
+    description = models.TextField(
+        help_text="Brief description of the domain and its potential use"
+    )
+    features = models.TextField(
+        help_text="Domain features/benefits (one per line)",
+        blank=True
+    )
+    listing_url = models.URLField(
+        max_length=500,
+        blank=True,
+        help_text="External listing URL (e.g., GoDaddy, Sedo, Flippa)"
+    )
+    website_name = models.CharField(
+        max_length=50,
+        blank=True,
+        default="GoDaddy",
+        help_text="Name of the marketplace/website (e.g., GoDaddy, Sedo, Flippa)"
+    )
+    is_available = models.BooleanField(
+        default=True,
+        help_text="Is the domain currently available for sale?"
+    )
+    is_featured_on_homepage = models.BooleanField(
+        default=False,
+        help_text="Display this domain on the homepage"
+    )
+    direct_to_contact = models.BooleanField(
+        default=False,
+        help_text="If checked, the button will direct to contact page instead of external listing"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-is_featured_on_homepage', '-created_at']
+        verbose_name = "Domain for Sale"
+        verbose_name_plural = "Domains for Sale"
+    
+    def __str__(self):
+        currency_symbol = self.currency.symbol if self.currency else '$'
+        return f"{self.name} - {currency_symbol}{self.price:,.0f}"
+    
+    @property
+    def formatted_price(self):
+        """Return formatted price with currency symbol and commas."""
+        currency_symbol = self.currency.symbol if self.currency else '$'
+        return f"{currency_symbol}{self.price:,.0f}"
+    
+    @property
+    def features_list(self):
+        """Return features as a list."""
+        if self.features:
+            return [feature.strip() for feature in self.features.split('\n') if feature.strip()]
+        return []
+    
+    @property
+    def status_badge_class(self):
+        """Return CSS class for status badge."""
+        return self.status.badge_class if self.status else 'bg-gray-100 text-gray-800'
+    
+    @property
+    def display_status(self):
+        """Return display name for status."""
+        return self.status.name if self.status else 'Regular'
+    
+    @property
+    def has_external_listing(self):
+        """Check if domain has an external listing URL and is not set to direct to contact."""
+        return bool(self.listing_url) and not self.direct_to_contact
+    
+    @property
+    def should_show_contact_button(self):
+        """Check if domain should show contact button."""
+        return self.direct_to_contact or not self.listing_url
+    
+    @property
+    def view_button_text(self):
+        """Return dynamic button text based on contact preference and website name."""
+        if self.direct_to_contact:
+            return "Contact for Details"
+        elif self.listing_url and self.website_name:
+            return f"View on {self.website_name}"
+        elif self.listing_url:
+            return "View Listing"
+        else:
+            return "Contact for Details"
+    
+    @property
+    def button_url(self):
+        """Return the appropriate URL for the button."""
+        if self.direct_to_contact or not self.listing_url:
+            return "/contact/"  # This will be handled in template with {% url %}
+        else:
+            return self.listing_url

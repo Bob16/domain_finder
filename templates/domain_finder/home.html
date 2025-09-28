@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="space-y-16">
+  <!-- Hero Section -->
+  <section class="relative py-20 lg:py-32 overflow-hidden">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 w-fit">
+              🚀 Domain Research Experts
+            </div>
+            <h1 class="text-4xl lg:text-6xl font-bold tracking-tight">
+              {{ hero.title|default:"Find the Perfect <span class='text-primary'>Domain</span> for Your Business"|safe }}
+            </h1>
+            <p class="text-lg text-muted-foreground max-w-lg">
+              {{ hero.subtitle|default:"Our expert market research helps you discover high-value domains that align with your brand and business goals. Make informed decisions with data-driven insights." }}
+            </p>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="{% url 'domain_finder:contact' %}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 btn-primary">
+              Start Your Search
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-6 pt-8">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-primary">500+</div>
+              <div class="text-sm text-muted-foreground">Domains Analyzed</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-primary">98%</div>
+              <div class="text-sm text-muted-foreground">Client Satisfaction</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-primary">24h</div>
+              <div class="text-sm text-muted-foreground">Avg. Response Time</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          {% if hero.image %}
+            <img src="{{ hero.image }}" alt="Domain Analytics Dashboard" class="rounded-lg shadow-2xl" />
+          {% else %}
+            <img src="https://images.unsplash.com/photo-1684610529682-553625a1ffed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx8fDE3NTgxNDM3NDJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Domain Analytics Dashboard" class="rounded-lg shadow-2xl" />
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Analytics Section -->
+  <section class="py-16 bg-muted/30">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center space-y-4 mb-12">
+        <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 w-fit mx-auto">
+          📊 Market Intelligence
+        </div>
+        <h2 class="text-3xl lg:text-4xl font-bold">
+          Data-Driven Domain Research
+        </h2>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Our comprehensive analytics provide deep insights into domain performance, market trends, and competitive landscape.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Analytics Card 1 -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <div class="flex items-center space-x-3">
+              <div class="p-2 rounded-lg bg-primary/10 text-blue-600 group-hover:bg-primary/20 transition-colors">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Market Trends</h3>
+            </div>
+            <p class="text-sm text-muted-foreground">Real-time analysis of domain market trends and pricing patterns</p>
+          </div>
+          <div class="p-6 pt-0">
+            <div class="space-y-2">
+              <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-bold text-blue-600">94%</span>
+                <span class="text-sm text-muted-foreground">Accuracy Rate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Card 2 -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <div class="flex items-center space-x-3">
+              <div class="p-2 rounded-lg bg-primary/10 text-green-600 group-hover:bg-primary/20 transition-colors">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="6"></circle>
+                  <circle cx="12" cy="12" r="2"></circle>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Brand Alignment</h3>
+            </div>
+            <p class="text-sm text-muted-foreground">Evaluate how well domains match your brand identity and goals</p>
+          </div>
+          <div class="p-6 pt-0">
+            <div class="space-y-2">
+              <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-bold text-green-600">89%</span>
+                <span class="text-sm text-muted-foreground">Match Score</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Card 3 -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden group hover:shadow-lg transition-all duration-300">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <div class="flex items-center space-x-3">
+              <div class="p-2 rounded-lg bg-primary/10 text-purple-600 group-hover:bg-primary/20 transition-colors">
+                <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <circle cx="12" cy="16" r="1"></circle>
+                  <path d="m7 11v-5a5 5 0 0 1 10 0v5"></path>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Risk Assessment</h3>
+            </div>
+            <p class="text-sm text-muted-foreground">Comprehensive domain history and legal risk evaluation</p>
+          </div>
+          <div class="p-6 pt-0">
+            <div class="space-y-2">
+              <div class="flex items-baseline space-x-2">
+                <span class="text-3xl font-bold text-purple-600">99%</span>
+                <span class="text-sm text-muted-foreground">Clean Domains</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- More Analytics - 3 Blocks -->
+  <section class="py-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center space-y-4 mb-12">
+        <h2 class="text-3xl lg:text-4xl font-bold">
+          Advanced Analytics Suite
+        </h2>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Leverage our sophisticated tools to make informed domain investment decisions.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Block 1 - Performance Metrics -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm relative overflow-hidden">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <div class="flex items-center space-x-2">
+              <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <line x1="12" y1="20" x2="12" y2="10"></line>
+                <line x1="18" y1="20" x2="18" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="16"></line>
+              </svg>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Performance Metrics</h3>
+            </div>
+            <p class="text-sm text-muted-foreground">Track domain performance across multiple parameters</p>
+          </div>
+          <div class="p-6 pt-0 space-y-4">
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-sm">SEO Score</span>
+                <span class="text-sm font-semibold">92/100</span>
+              </div>
+              <div class="w-full bg-muted rounded-full h-2">
+                <div class="bg-green-500 h-2 rounded-full w-[92%]"></div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-sm">Brand Strength</span>
+                <span class="text-sm font-semibold">87/100</span>
+              </div>
+              <div class="w-full bg-muted rounded-full h-2">
+                <div class="bg-blue-500 h-2 rounded-full w-[87%]"></div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-sm">Market Value</span>
+                <span class="text-sm font-semibold">78/100</span>
+              </div>
+              <div class="w-full bg-muted rounded-full h-2">
+                <div class="bg-purple-500 h-2 rounded-full w-[78%]"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 2 - Market Intelligence -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm relative overflow-hidden">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <div class="flex items-center space-x-2">
+              <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="m23 21-6-6m6 6-6 6"></path>
+                <path d="m17 11 6 6"></path>
+              </svg>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Market Intelligence</h3>
+            </div>
+            <p class="text-sm text-muted-foreground">Understand your competitive landscape and opportunities</p>
+          </div>
+          <div class="p-6 pt-0 space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="text-center p-3 bg-muted/50 rounded-lg">
+                <div class="text-2xl font-bold text-primary">1,247</div>
+                <div class="text-xs text-muted-foreground">Similar Domains</div>
+              </div>
+              <div class="text-center p-3 bg-muted/50 rounded-lg">
+                <div class="text-2xl font-bold text-green-600">$2.4M</div>
+                <div class="text-xs text-muted-foreground">Avg. Sale Price</div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-sm font-semibold">Top Competing TLDs</h4>
+              <div class="flex flex-wrap gap-1">
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground">.com (45%)</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground">.net (23%)</div>
+                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground">.org (12%)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Block 3 - Global Reach -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm relative overflow-hidden">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <div class="flex items-center space-x-2">
+              <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="m12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">Global Reach Analysis</h3>
+            </div>
+            <p class="text-sm text-muted-foreground">Analyze domain potential across different markets</p>
+          </div>
+          <div class="p-6 pt-0 space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-sm">North America</span>
+                <span class="text-sm font-semibold text-green-600">High</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm">Europe</span>
+                <span class="text-sm font-semibold text-blue-600">Medium</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm">Asia Pacific</span>
+                <span class="text-sm font-semibold text-purple-600">High</span>
+              </div>
+            </div>
+            <div class="pt-2 border-t border-border">
+              <div class="text-center">
+                <div class="text-lg font-bold text-primary">156</div>
+                <div class="text-xs text-muted-foreground">Countries Analyzed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-primary text-primary-foreground">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="max-w-2xl mx-auto space-y-6">
+        <h2 class="text-3xl lg:text-4xl font-bold">
+          Ready to Find Your Perfect Domain?
+        </h2>
+        <p class="text-lg opacity-90">
+          Let our experts help you discover high-value domains that will drive your business forward.
+        </p>
+        <a href="{% url 'domain_finder:contact' %}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 bg-secondary text-secondary-foreground hover:bg-secondary/80">
+          Get Your Free Analysis
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}
