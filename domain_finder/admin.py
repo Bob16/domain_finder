@@ -46,7 +46,7 @@ class HomePageAdmin(admin.ModelAdmin):
             ]
         }),
         ('Settings', {
-            'fields': ['is_active']
+            'fields': ['show_advanced_analytics', 'is_active']
         })
     ]
     readonly_fields = ['created_at', 'updated_at']

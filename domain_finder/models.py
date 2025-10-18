@@ -139,6 +139,12 @@ class HomePage(models.Model):
         help_text="Label for third analytics card number"
     )
     
+    # Advanced Analytics Section Toggle
+    show_advanced_analytics = models.BooleanField(
+        default=False,
+        help_text="Show/Hide the Advanced Analytics section on homepage"
+    )
+    
     is_active = models.BooleanField(
         default=True,
         help_text="Set to True to use this content on homepage"

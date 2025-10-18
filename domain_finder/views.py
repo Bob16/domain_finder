@@ -104,12 +104,18 @@ def home(request):
             }
         }
     
+    # Advanced Analytics section toggle (default False)
+    show_advanced_analytics = False
+    if homepage_content:
+        show_advanced_analytics = homepage_content.show_advanced_analytics
+    
     context = {
         'page_title': 'Domain Finder - Expert Domain Research & Analytics',
         'featured_post': featured_post,
         'hero': hero_content,
         'stats': statistics,
         'market_intel': market_intelligence,
+        'show_advanced_analytics': show_advanced_analytics,
     }
     return render(request, 'domain_finder/home.html', context)
 
