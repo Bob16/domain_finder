@@ -56,6 +56,89 @@ class HomePage(models.Model):
         help_text="Label for response time statistic"
     )
     
+    # Market Intelligence Section
+    market_intelligence_pill = models.CharField(
+        max_length=50,
+        default="Market Intelligence",
+        help_text="Text for the pill button (without emoji)"
+    )
+    market_intelligence_title = models.CharField(
+        max_length=100,
+        default="Data-Driven Domain Research",
+        help_text="Main title for Market Intelligence section"
+    )
+    market_intelligence_subtitle = models.TextField(
+        max_length=300,
+        default="Our comprehensive analytics provide deep insights into domain performance, market trends, and competitive landscape.",
+        help_text="Subtitle description for Market Intelligence section"
+    )
+    
+    # Analytics Card 1 - Market Trends
+    card1_title = models.CharField(
+        max_length=50,
+        default="Market Trends",
+        help_text="Title for first analytics card"
+    )
+    card1_subtitle = models.CharField(
+        max_length=150,
+        default="Real-time analysis of domain market trends and pricing patterns",
+        help_text="Subtitle for first analytics card"
+    )
+    card1_number = models.CharField(
+        max_length=20,
+        default="94%",
+        help_text="Number/percentage for first analytics card"
+    )
+    card1_label = models.CharField(
+        max_length=50,
+        default="Accuracy Rate",
+        help_text="Label for first analytics card number"
+    )
+    
+    # Analytics Card 2 - Brand Alignment
+    card2_title = models.CharField(
+        max_length=50,
+        default="Brand Alignment",
+        help_text="Title for second analytics card"
+    )
+    card2_subtitle = models.CharField(
+        max_length=150,
+        default="Evaluate how well domains match your brand identity and goals",
+        help_text="Subtitle for second analytics card"
+    )
+    card2_number = models.CharField(
+        max_length=20,
+        default="89%",
+        help_text="Number/percentage for second analytics card"
+    )
+    card2_label = models.CharField(
+        max_length=50,
+        default="Match Score",
+        help_text="Label for second analytics card number"
+    )
+    
+    # Analytics Card 3 - Risk Assessment
+    card3_title = models.CharField(
+        max_length=50,
+        default="Risk Assessment",
+        help_text="Title for third analytics card"
+    )
+    card3_subtitle = models.CharField(
+        max_length=150,
+        default="Comprehensive domain history and legal risk evaluation",
+        help_text="Subtitle for third analytics card"
+    )
+    card3_number = models.CharField(
+        max_length=20,
+        default="99%",
+        help_text="Number/percentage for third analytics card"
+    )
+    card3_label = models.CharField(
+        max_length=50,
+        default="Clean Domains",
+        help_text="Label for third analytics card number"
+    )
+    
     is_active = models.BooleanField(
         default=True,
         help_text="Set to True to use this content on homepage"

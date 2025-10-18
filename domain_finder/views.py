@@ -40,6 +40,31 @@ def home(request):
         'response_time_label': 'Avg. Response Time',
     }
     
+    # Fallback Market Intelligence content
+    market_intelligence = {
+        'pill_text': 'Market Intelligence',
+        'title': 'Data-Driven Domain Research',
+        'subtitle': 'Our comprehensive analytics provide deep insights into domain performance, market trends, and competitive landscape.',
+        'card1': {
+            'title': 'Market Trends',
+            'subtitle': 'Real-time analysis of domain market trends and pricing patterns',
+            'number': '94%',
+            'label': 'Accuracy Rate'
+        },
+        'card2': {
+            'title': 'Brand Alignment',
+            'subtitle': 'Evaluate how well domains match your brand identity and goals',
+            'number': '89%',
+            'label': 'Match Score'
+        },
+        'card3': {
+            'title': 'Risk Assessment',
+            'subtitle': 'Comprehensive domain history and legal risk evaluation',
+            'number': '99%',
+            'label': 'Clean Domains'
+        }
+    }
+    
     # Use database content if available
     if homepage_content:
         hero_content = {
@@ -55,12 +80,36 @@ def home(request):
             'response_time': homepage_content.response_time,
             'response_time_label': homepage_content.response_time_label,
         }
+        market_intelligence = {
+            'pill_text': homepage_content.market_intelligence_pill,
+            'title': homepage_content.market_intelligence_title,
+            'subtitle': homepage_content.market_intelligence_subtitle,
+            'card1': {
+                'title': homepage_content.card1_title,
+                'subtitle': homepage_content.card1_subtitle,
+                'number': homepage_content.card1_number,
+                'label': homepage_content.card1_label
+            },
+            'card2': {
+                'title': homepage_content.card2_title,
+                'subtitle': homepage_content.card2_subtitle,
+                'number': homepage_content.card2_number,
+                'label': homepage_content.card2_label
+            },
+            'card3': {
+                'title': homepage_content.card3_title,
+                'subtitle': homepage_content.card3_subtitle,
+                'number': homepage_content.card3_number,
+                'label': homepage_content.card3_label
+            }
+        }
     
     context = {
         'page_title': 'Domain Finder - Expert Domain Research & Analytics',
         'featured_post': featured_post,
         'hero': hero_content,
         'stats': statistics,
+        'market_intel': market_intelligence,
     }
     return render(request, 'domain_finder/home.html', context)
 

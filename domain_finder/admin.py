@@ -20,6 +20,31 @@ class HomePageAdmin(admin.ModelAdmin):
                 ('response_time', 'response_time_label')
             ]
         }),
+        ('Market Intelligence Section', {
+            'fields': [
+                'market_intelligence_pill',
+                'market_intelligence_title',
+                'market_intelligence_subtitle'
+            ]
+        }),
+        ('Analytics Card 1 - Market Trends', {
+            'fields': [
+                ('card1_title', 'card1_subtitle'),
+                ('card1_number', 'card1_label')
+            ]
+        }),
+        ('Analytics Card 2 - Brand Alignment', {
+            'fields': [
+                ('card2_title', 'card2_subtitle'),
+                ('card2_number', 'card2_label')
+            ]
+        }),
+        ('Analytics Card 3 - Risk Assessment', {
+            'fields': [
+                ('card3_title', 'card3_subtitle'),
+                ('card3_number', 'card3_label')
+            ]
+        }),
         ('Settings', {
             'fields': ['is_active']
         })

@@ -59,13 +59,13 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center space-y-4 mb-12">
         <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 w-fit mx-auto">
-          📊 Market Intelligence
+          📊 {{ market_intel.pill_text }}
         </div>
         <h2 class="text-3xl lg:text-4xl font-bold">
-          Data-Driven Domain Research
+          {{ market_intel.title }}
         </h2>
         <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Our comprehensive analytics provide deep insights into domain performance, market trends, and competitive landscape.
+          {{ market_intel.subtitle }}
         </p>
       </div>
 
@@ -79,15 +79,15 @@
                   <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
                 </svg>
               </div>
-              <h3 class="text-2xl font-semibold leading-none tracking-tight">Market Trends</h3>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">{{ market_intel.card1.title }}</h3>
             </div>
-            <p class="text-sm text-muted-foreground">Real-time analysis of domain market trends and pricing patterns</p>
+            <p class="text-sm text-muted-foreground">{{ market_intel.card1.subtitle }}</p>
           </div>
           <div class="p-6 pt-0">
             <div class="space-y-2">
               <div class="flex items-baseline space-x-2">
-                <span class="text-3xl font-bold text-blue-600">94%</span>
-                <span class="text-sm text-muted-foreground">Accuracy Rate</span>
+                <span class="text-3xl font-bold text-blue-600">{{ market_intel.card1.number }}</span>
+                <span class="text-sm text-muted-foreground">{{ market_intel.card1.label }}</span>
               </div>
             </div>
           </div>
@@ -104,15 +104,15 @@
                   <circle cx="12" cy="12" r="2"></circle>
                 </svg>
               </div>
-              <h3 class="text-2xl font-semibold leading-none tracking-tight">Brand Alignment</h3>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">{{ market_intel.card2.title }}</h3>
             </div>
-            <p class="text-sm text-muted-foreground">Evaluate how well domains match your brand identity and goals</p>
+            <p class="text-sm text-muted-foreground">{{ market_intel.card2.subtitle }}</p>
           </div>
           <div class="p-6 pt-0">
             <div class="space-y-2">
               <div class="flex items-baseline space-x-2">
-                <span class="text-3xl font-bold text-green-600">89%</span>
-                <span class="text-sm text-muted-foreground">Match Score</span>
+                <span class="text-3xl font-bold text-green-600">{{ market_intel.card2.number }}</span>
+                <span class="text-sm text-muted-foreground">{{ market_intel.card2.label }}</span>
               </div>
             </div>
           </div>
@@ -129,15 +129,15 @@
                   <path d="m7 11v-5a5 5 0 0 1 10 0v5"></path>
                 </svg>
               </div>
-              <h3 class="text-2xl font-semibold leading-none tracking-tight">Risk Assessment</h3>
+              <h3 class="text-2xl font-semibold leading-none tracking-tight">{{ market_intel.card3.title }}</h3>
             </div>
-            <p class="text-sm text-muted-foreground">Comprehensive domain history and legal risk evaluation</p>
+            <p class="text-sm text-muted-foreground">{{ market_intel.card3.subtitle }}</p>
           </div>
           <div class="p-6 pt-0">
             <div class="space-y-2">
               <div class="flex items-baseline space-x-2">
-                <span class="text-3xl font-bold text-purple-600">99%</span>
-                <span class="text-sm text-muted-foreground">Clean Domains</span>
+                <span class="text-3xl font-bold text-purple-600">{{ market_intel.card3.number }}</span>
+                <span class="text-sm text-muted-foreground">{{ market_intel.card3.label }}</span>
               </div>
             </div>
           </div>
