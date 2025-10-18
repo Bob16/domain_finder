@@ -23,6 +23,39 @@ class HomePage(models.Model):
         null=True,
         help_text="Hero image for the homepage. Leave empty to use default image."
     )
+    
+    # Statistics Section
+    domains_analyzed = models.CharField(
+        max_length=20,
+        default="500+",
+        help_text="Number of domains analyzed (e.g., '500+', '1000+')"
+    )
+    domains_analyzed_label = models.CharField(
+        max_length=50,
+        default="Domains Analyzed",
+        help_text="Label for domains analyzed statistic"
+    )
+    client_satisfaction = models.CharField(
+        max_length=20,
+        default="98%",
+        help_text="Client satisfaction percentage (e.g., '98%', '99%')"
+    )
+    client_satisfaction_label = models.CharField(
+        max_length=50,
+        default="Client Satisfaction",
+        help_text="Label for client satisfaction statistic"
+    )
+    response_time = models.CharField(
+        max_length=20,
+        default="24h",
+        help_text="Average response time (e.g., '24h', '12h')"
+    )
+    response_time_label = models.CharField(
+        max_length=50,
+        default="Avg. Response Time",
+        help_text="Label for response time statistic"
+    )
+    
     is_active = models.BooleanField(
         default=True,
         help_text="Set to True to use this content on homepage"

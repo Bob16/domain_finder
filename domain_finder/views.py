@@ -30,6 +30,16 @@ def home(request):
         'image': None
     }
     
+    # Fallback statistics if no active homepage content exists
+    statistics = {
+        'domains_analyzed': '500+',
+        'domains_analyzed_label': 'Domains Analyzed',
+        'client_satisfaction': '98%',
+        'client_satisfaction_label': 'Client Satisfaction',
+        'response_time': '24h',
+        'response_time_label': 'Avg. Response Time',
+    }
+    
     # Use database content if available
     if homepage_content:
         hero_content = {
@@ -37,11 +47,20 @@ def home(request):
             'subtitle': homepage_content.subtitle,
             'image': homepage_content.hero_image.url if homepage_content.hero_image else None,
         }
+        statistics = {
+            'domains_analyzed': homepage_content.domains_analyzed,
+            'domains_analyzed_label': homepage_content.domains_analyzed_label,
+            'client_satisfaction': homepage_content.client_satisfaction,
+            'client_satisfaction_label': homepage_content.client_satisfaction_label,
+            'response_time': homepage_content.response_time,
+            'response_time_label': homepage_content.response_time_label,
+        }
     
     context = {
         'page_title': 'Domain Finder - Expert Domain Research & Analytics',
         'featured_post': featured_post,
         'hero': hero_content,
+        'stats': statistics,
     }
     return render(request, 'domain_finder/home.html', context)
 

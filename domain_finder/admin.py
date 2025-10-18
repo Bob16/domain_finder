@@ -9,7 +9,21 @@ from .models import HomePage, BlogCategory, Author, BlogPost, ContactSubmission,
 class HomePageAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'is_active', 'updated_at']
     list_filter = ['is_active', 'created_at']
-    fields = ['title', 'subtitle', 'hero_image', 'is_active']
+    fieldsets = [
+        ('Hero Section', {
+            'fields': ['title', 'subtitle', 'hero_image']
+        }),
+        ('Statistics Section', {
+            'fields': [
+                ('domains_analyzed', 'domains_analyzed_label'),
+                ('client_satisfaction', 'client_satisfaction_label'),
+                ('response_time', 'response_time_label')
+            ]
+        }),
+        ('Settings', {
+            'fields': ['is_active']
+        })
+    ]
     readonly_fields = ['created_at', 'updated_at']
     
     def has_delete_permission(self, request, obj=None):
