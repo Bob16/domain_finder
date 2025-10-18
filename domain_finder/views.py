@@ -10,7 +10,7 @@ from django.core.mail import send_mail, get_connection
 from django.contrib import messages
 from django.conf import settings
 from django.db import models
-from .models import BlogPost, BlogCategory, ContactInfo, Domain, DomainStatus, Currency
+from .models import BlogPost, BlogCategory, ContactInfo, ContactService, Domain, DomainStatus, Currency
 from .forms import ContactForm
 
 def home(request):
@@ -177,10 +177,18 @@ def blog_detail(request, post_id):
 def contact(request):
     """Contact page view."""
     form = ContactForm()
+    contact_info = ContactInfo.get_active_contact_info()
+    
+    # Get active services from the active contact info
+    services = []
+    if contact_info:
+        services = contact_info.services.filter(is_active=True).order_by('sort_order', 'name')
     
     context = {
         'page_title': 'Contact Us - Domain Finder',
         'form': form,
+        'contact_info': contact_info,
+        'services': services,
     }
     return render(request, 'domain_finder/contact.html', context)
 

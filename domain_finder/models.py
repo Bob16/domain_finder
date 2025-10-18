@@ -153,12 +153,12 @@ class HomePage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        verbose_name = "Homepage Content"
-        verbose_name_plural = "Homepage Content"
+        verbose_name = "Home Page Content"
+        verbose_name_plural = "Home Page Content"
         ordering = ['-updated_at']
     
     def __str__(self):
-        return f"Homepage Content ({'Active' if self.is_active else 'Inactive'})"
+        return f"Home Page Content ({'Active' if self.is_active else 'Inactive'})"
     
     def save(self, *args, **kwargs):
         # Ensure only one active homepage content at a time
@@ -271,7 +271,7 @@ class ContactSubmission(models.Model):
         return f"Contact from {self.name} - {self.email}"
 
 class ContactInfo(models.Model):
-    """Contact information for the Get in Touch section."""
+    """Contact page content management."""
     
     # Email section
     email_value = models.EmailField(default="info@domainfinder.com")
@@ -284,6 +284,22 @@ class ContactInfo(models.Model):
     # Address section
     address_line1 = models.CharField(max_length=200, default="123 Domain Street")
     address_line2 = models.CharField(max_length=200, default="San Francisco, CA 94105")
+    
+    # Services section
+    show_services = models.BooleanField(
+        default=True,
+        help_text="Show/hide the Our Services section on contact page"
+    )
+    services_title = models.CharField(
+        max_length=100,
+        default="Our Services",
+        help_text="Title for the services section"
+    )
+    services_subtitle = models.CharField(
+        max_length=200,
+        default="What we can help you with",
+        help_text="Subtitle for the services section"
+    )
     
     # SMTP settings for sending emails
     smtp_email = models.EmailField(
@@ -310,17 +326,51 @@ class ContactInfo(models.Model):
     is_active = models.BooleanField(default=True)
     
     class Meta:
-        verbose_name = "Contact Information"
-        verbose_name_plural = "Contact Information"
+        verbose_name = "Contact Page Content"
+        verbose_name_plural = "Contact Page Content"
         ordering = ['-created_at']
     
     def __str__(self):
-        return f"Contact Info (Updated: {self.updated_at.strftime('%Y-%m-%d')})"
+        status = "Active" if self.is_active else "Inactive"
+        return f"Contact Page Content ({status})"
     
     @classmethod
     def get_active_contact_info(cls):
         """Get the active contact information."""
         return cls.objects.filter(is_active=True).first()
+
+
+class ContactService(models.Model):
+    """Individual service items for the contact page services section."""
+    
+    contact_info = models.ForeignKey(
+        ContactInfo,
+        on_delete=models.CASCADE,
+        related_name='services',
+        help_text="Associated contact page content"
+    )
+    name = models.CharField(
+        max_length=200,
+        help_text="Service name (e.g., 'Domain Market Research & Analysis')"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Show/hide this service on the contact page"
+    )
+    sort_order = models.IntegerField(
+        default=0,
+        help_text="Display order (lower numbers appear first)"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Service"
+        verbose_name_plural = "Services"
+        ordering = ['sort_order', 'name']
+    
+    def __str__(self):
+        return self.name
 
 
 class DomainStatus(models.Model):

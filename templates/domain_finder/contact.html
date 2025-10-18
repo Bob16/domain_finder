@@ -140,15 +140,24 @@
         </div>
 
         <!-- Services Overview -->
+        {% if contact_info and contact_info.show_services %}
         <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
           <div class="flex flex-col space-y-1.5 p-6">
-            <h3 class="text-2xl font-semibold leading-none tracking-tight">Our Services</h3>
+            <h3 class="text-2xl font-semibold leading-none tracking-tight">
+              {{ contact_info.services_title|default:"Our Services" }}
+            </h3>
             <p class="text-sm text-muted-foreground">
-              What we can help you with
+              {{ contact_info.services_subtitle|default:"What we can help you with" }}
             </p>
           </div>
           <div class="p-6 pt-0">
             <div class="space-y-4">
+              {% for service in services %}
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-primary rounded-full"></div>
+                <span>{{ service.name }}</span>
+              </div>
+              {% empty %}
               <div class="flex items-center space-x-3">
                 <div class="w-2 h-2 bg-primary rounded-full"></div>
                 <span>Domain Market Research & Analysis</span>
@@ -169,9 +178,11 @@
                 <div class="w-2 h-2 bg-primary rounded-full"></div>
                 <span>Portfolio Strategy Consulting</span>
               </div>
+              {% endfor %}
             </div>
           </div>
         </div>
+        {% endif %}
 
         <!-- What to Expect -->
         <div class="rounded-lg border bg-card text-card-foreground shadow-sm">

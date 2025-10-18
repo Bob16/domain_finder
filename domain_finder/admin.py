@@ -3,7 +3,7 @@ Django admin configuration for Domain Finder.
 """
 from django.contrib import admin
 from django import forms
-from .models import HomePage, BlogCategory, Author, BlogPost, ContactSubmission, ContactInfo, Domain, DomainStatus, Currency
+from .models import HomePage, BlogCategory, Author, BlogPost, ContactSubmission, ContactInfo, ContactService, Domain, DomainStatus, Currency
 
 @admin.register(HomePage)
 class HomePageAdmin(admin.ModelAdmin):
@@ -150,24 +150,33 @@ class ContactSubmissionAdmin(admin.ModelAdmin):
 
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
-    list_display = ['email_value', 'phone_value', 'smtp_email', 'from_email', 'is_active', 'updated_at']
-    list_filter = ['is_active', 'updated_at']
+    list_display = ['__str__', 'is_active', 'show_services', 'updated_at']
+    list_filter = ['is_active', 'show_services', 'updated_at']
     ordering = ['-updated_at']
     
     fieldsets = (
-        ('Email Information', {
-            'fields': ('email_value', 'email_description')
+        ('Contact Information', {
+            'fields': (
+                ('email_value', 'email_description'),
+                ('phone_value', 'phone_description'),
+                ('address_line1', 'address_line2')
+            )
         }),
-        ('Phone Information', {
-            'fields': ('phone_value', 'phone_description')
-        }),
-        ('Address Information', {
-            'fields': ('address_line1', 'address_line2')
+        ('Services Section', {
+            'fields': (
+                'show_services',
+                'services_title',
+                'services_subtitle'
+            ),
+            'description': 'Configure the Our Services section title and subtitle. Individual services are managed separately in the Services admin section.',
         }),
         ('Email Configuration', {
-            'fields': ('smtp_email', 'smtp_password', 'from_email', 'is_active'),
+            'fields': ('smtp_email', 'smtp_password', 'from_email'),
             'description': 'Configure Gmail for sending emails. Contact form messages will be sent to the SMTP email address. Generate App Password from Google Account Security settings.',
         }),
+        ('Settings', {
+            'fields': ['is_active']
+        })
     )
     
     def save_model(self, request, obj, form, change):
@@ -175,6 +184,21 @@ class ContactInfoAdmin(admin.ModelAdmin):
             # Deactivate all other ContactInfo instances
             ContactInfo.objects.exclude(pk=obj.pk).update(is_active=False)
         super().save_model(request, obj, form, change)
+
+
+@admin.register(ContactService)
+class ContactServiceAdmin(admin.ModelAdmin):
+    list_display = ['name', 'is_active', 'sort_order', 'contact_info', 'updated_at']
+    list_filter = ['is_active', 'contact_info', 'created_at']
+    list_editable = ['is_active', 'sort_order']
+    search_fields = ['name']
+    ordering = ['sort_order', 'name']
+    
+    fieldsets = (
+        ('Service Details', {
+            'fields': ('contact_info', 'name', 'is_active', 'sort_order')
+        }),
+    )
 
 
 @admin.register(DomainStatus)
