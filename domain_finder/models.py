@@ -300,6 +300,17 @@ class ContactInfo(models.Model):
         default="What we can help you with",
         help_text="Subtitle for the services section"
     )
+
+        # What to Expect section - ADD THESE NEW FIELDS HERE
+    show_what_to_expect = models.BooleanField(
+        default=True,
+        help_text="Show/hide the What to Expect section on contact page"
+    )
+    what_to_expect_title = models.CharField(
+        max_length=100,
+        default="What to Expect",
+        help_text="Title for the What to Expect section"
+    )
     
     # SMTP settings for sending emails
     smtp_email = models.EmailField(
@@ -536,3 +547,21 @@ class Domain(models.Model):
             return "/contact/"  # This will be handled in template with {% url %}
         else:
             return self.listing_url
+        
+
+class ExpectationItem(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, help_text="CSS class for icon (e.g., 'fas fa-clock')")
+    order = models.PositiveIntegerField(default=0, help_text="Display order")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['order', 'title']
+        verbose_name = 'Expectation Item'
+        verbose_name_plural = 'Expectation Items'
+    
+    def __str__(self):
+        return self.title

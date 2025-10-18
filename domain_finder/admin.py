@@ -3,7 +3,8 @@ Django admin configuration for Domain Finder.
 """
 from django.contrib import admin
 from django import forms
-from .models import HomePage, BlogCategory, Author, BlogPost, ContactSubmission, ContactInfo, ContactService, Domain, DomainStatus, Currency
+from .models import HomePage, BlogCategory, Author, BlogPost, ContactSubmission, ContactInfo, ContactService, Domain, DomainStatus, Currency, ExpectationItem
+
 
 @admin.register(HomePage)
 class HomePageAdmin(admin.ModelAdmin):
@@ -150,8 +151,8 @@ class ContactSubmissionAdmin(admin.ModelAdmin):
 
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'is_active', 'show_services', 'updated_at']
-    list_filter = ['is_active', 'show_services', 'updated_at']
+    list_display = ['__str__', 'is_active', 'show_services', 'show_what_to_expect', 'updated_at']
+    list_filter = ['is_active', 'show_services', 'show_what_to_expect', 'updated_at']
     ordering = ['-updated_at']
     
     fieldsets = (
@@ -169,6 +170,13 @@ class ContactInfoAdmin(admin.ModelAdmin):
                 'services_subtitle'
             ),
             'description': 'Configure the Our Services section title and subtitle. Individual services are managed separately in the Services admin section.',
+        }),
+        ('What to Expect Section', {
+            'fields': (
+                'show_what_to_expect',
+                'what_to_expect_title'
+            ),
+            'description': 'Configure the What to Expect section title. Individual expectation items are managed separately in the Expectation Items admin section.',
         }),
         ('Email Configuration', {
             'fields': ('smtp_email', 'smtp_password', 'from_email'),
@@ -302,3 +310,21 @@ class DomainAdmin(admin.ModelAdmin):
         return obj.formatted_price
     formatted_price.short_description = 'Price'
     formatted_price.admin_order_field = 'price'
+
+@admin.register(ExpectationItem)
+class ExpectationItemAdmin(admin.ModelAdmin):
+    list_display = ['title', 'order', 'is_active', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['title', 'description']
+    list_editable = ['order', 'is_active']
+    ordering = ['order', 'title']
+    
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'description', 'icon')
+        }),
+        ('Display Options', {
+            'fields': ('order', 'is_active'),
+            'classes': ('collapse',)
+        }),
+    )

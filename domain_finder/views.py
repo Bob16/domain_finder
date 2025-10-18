@@ -10,7 +10,7 @@ from django.core.mail import send_mail, get_connection
 from django.contrib import messages
 from django.conf import settings
 from django.db import models
-from .models import BlogPost, BlogCategory, ContactInfo, ContactService, Domain, DomainStatus, Currency
+from .models import BlogPost, BlogCategory, ContactInfo, ContactService, Domain, DomainStatus, Currency, ExpectationItem
 from .forms import ContactForm
 
 def home(request):
@@ -175,20 +175,42 @@ def blog_detail(request, post_id):
     return render(request, 'domain_finder/blog_detail.html', context)
 
 def contact(request):
-    """Contact page view."""
-    form = ContactForm()
-    contact_info = ContactInfo.get_active_contact_info()
+    contact_info = ContactInfo.objects.first()
+    expectation_items = ExpectationItem.objects.filter(is_active=True).order_by('order', 'title')
     
-    # Get active services from the active contact info
-    services = []
-    if contact_info:
-        services = contact_info.services.filter(is_active=True).order_by('sort_order', 'name')
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Save the contact message
+            ContactMessage.objects.create(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                message=form.cleaned_data['message']
+            )
+            
+            # Return JSON response for AJAX
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.'
+                })
+            else:
+                messages.success(request, 'Thank you! Your message has been sent successfully.')
+                return redirect('contact')
+        else:
+            # Return JSON response with errors for AJAX
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'errors': form.errors
+                })
+    else:
+        form = ContactForm()
     
     context = {
-        'page_title': 'Contact Us - Domain Finder',
-        'form': form,
         'contact_info': contact_info,
-        'services': services,
+        'expectation_items': expectation_items,
+        'form': form,
     }
     return render(request, 'domain_finder/contact.html', context)
 

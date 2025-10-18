@@ -185,33 +185,36 @@
         {% endif %}
 
         <!-- What to Expect -->
+         {% if contact_info.show_what_to_expect and expectation_items %}
         <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
           <div class="flex flex-col space-y-1.5 p-6">
-            <h3 class="text-2xl font-semibold leading-none tracking-tight">What to Expect</h3>
+            <h3 class="text-2xl font-semibold leading-none tracking-tight">{{ contact_info.what_to_expect_title }}</h3>
           </div>
           <div class="p-6 pt-0">
             <div class="space-y-4">
               <div class="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                <span>Initial Response</span>
+                <span>{{ expectation_items.0.title }}</span>
                 <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
-                  Within 24 hours
+                  {{ expectation_items.0.description }}
                 </div>
               </div>
               <div class="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                <span>Detailed Analysis</span>
+                <span>{{ expectation_items.1.title }}</span>
                 <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
-                  2-3 business days
+                  {{ expectation_items.1.description }}
                 </div>
               </div>
               <div class="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                <span>Complete Report</span>
+                <span>{{ expectation_items.2.title }}</span>
                 <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
-                  5-7 business days
+                  {{ expectation_items.2.description }}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {% endif %}
+
       </div>
     </div>
   </div>
