@@ -145,8 +145,8 @@ MESSAGE_TAGS = {
 
 # Google reCAPTCHA v3 Configuration
 # Get these keys from https://www.google.com/recaptcha/admin
-RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY', default='6Lcv8NIrAAAAAC4-g2EqM8hROeVQH3tngSQzMhIm')
-RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY', default='6Lcv8NIrAAAAAKQZVoswx5t_4HrSjjX1GSvocoW4')
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY', default='6LdBOdgrAAAAABo_6K1nkixlUykL2gdIbrSVWFPr')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY', default='6LdBOdgrAAAAAHSliHlf54f5aSIF9lO6Eyaa-H7p')
 
 # reCAPTCHA v3 settings
 RECAPTCHA_DEFAULT_ACTION = config('RECAPTCHA_DEFAULT_ACTION', default='contact_form')

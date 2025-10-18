@@ -127,7 +127,7 @@ async function handleContactSubmit(e) {
     let recaptchaToken = null;
     if (typeof grecaptcha !== 'undefined') {
       try {
-        recaptchaToken = await grecaptcha.execute('6Lcv8NIrAAAAAC4-g2EqM8hROeVQH3tngSQzMhIm', { action: 'submit' });
+        recaptchaToken = await grecaptcha.execute('6LdBOdgrAAAAABo_6K1nkixlUykL2gdIbrSVWFPr', { action: 'submit' });
         data.captcha = recaptchaToken;
         console.log('✅ reCAPTCHA token obtained');
       } catch (recaptchaError) {
