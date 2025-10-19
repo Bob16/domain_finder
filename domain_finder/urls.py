@@ -16,4 +16,7 @@ urlpatterns = [
     path('ajax/contact/', views.contact_ajax, name='contact_ajax'),
     # Test 404 page (works in development)
     path('test-404/', views.custom_404_view, name='test_404'),
+    path('privacy/', views.privacy, name='privacy'),
+    path('terms-uk/', views.terms_uk, name='terms_uk'),
+    path('complaints-appeals/', views.complaints_appeals, name='complaints_appeals'),
 ]

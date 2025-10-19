@@ -214,6 +214,13 @@ def contact(request):
     }
     return render(request, 'domain_finder/contact.html', context)
 
+def privacy(request):
+    """Privacy Policy page view."""
+    context = {
+        'page_title': 'Privacy Policy - Domain Finder',
+    }
+    return render(request, 'domain_finder/privacy.html', context)
+
 @require_http_methods(["POST"])
 def contact_ajax(request):
     """AJAX contact form submission."""
@@ -389,3 +396,10 @@ def custom_404_view(request, exception=None):
 def handler404(request, exception):
     """Custom 404 handler for production."""
     return render(request, '404.html', status=404)
+
+def terms_uk(request):
+    return render(request, 'domain_finder/terms-uk.html')
+
+def complaints_appeals(request):
+    return render(request, 'domain_finder/complaints-appeals.html')
+

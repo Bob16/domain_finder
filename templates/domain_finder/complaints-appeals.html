@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Complaints and Appeal Procedures | DomainFinder{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-16">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+    <!-- Header -->
+    <div class="text-center space-y-4 mb-12">
+      <div class="inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 w-fit mx-auto">
+        <svg class="h-3 w-3 mr-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        Customer Support
+      </div>
+      <h1 class="text-4xl lg:text-5xl font-bold">
+        Complaints and Appeal Procedures
+      </h1>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+        At Domain Finder, we are committed to providing a high-quality service to all our customers. However, we recognise that sometimes things may not go as expected. If you are dissatisfied with any aspect of our service, please let us know — your feedback helps us to improve.
+      </p>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+        This section explains how you can raise a complaint, how we handle it, and what to do if you’re not satisfied with our response.
+      </p>
+      <p class="text-sm text-muted-foreground">
+        Last Updated: October 18, 2025
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="space-y-12">
+      <!-- Section 1 -->
+      <section class="space-y-4">
+        <h2>1. Complaints Procedure</h2>
+        <p class="text-muted-foreground leading-relaxed">
+          We take all complaints seriously and aim to resolve them quickly, efficiently, and fairly. Please follow the steps below to ensure your concerns are handled appropriately.
+        </p>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="space-y-4">
+        <h2>1.1 Contact us by phone</h2>
+        <p class="text-muted-foreground leading-relaxed">
+          If you have a complaint about our service, we encourage you to contact us directly. Many issues can be resolved informally and immediately by speaking with a member of our team.
+        </p>
+        <p class="text-muted-foreground leading-relaxed">
+          Call us on +44 7344715378<br>Our support hours are Monday to Friday, 9:00am – 5:00pm (UK time).
+        </p>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="space-y-4">
+        <h2>1.2 Contact us by email</h2>
+        <p class="text-muted-foreground leading-relaxed">
+          If you prefer to put your complaint in writing, please email us at info@domainfinder.uk.
+        </p>
+        <p class="text-muted-foreground leading-relaxed">
+          Please include.
+        </p>
+        <ul class="space-y-2 mt-4">
+          <li class="flex items-start space-x-2">
+            <span class="text-primary mt-1">•</span>
+            <span class="text-muted-foreground">Your full name and contact details</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-primary mt-1">•</span>
+            <span class="text-muted-foreground">Any relevant domain name(s) or account information</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-primary mt-1">•</span>
+            <span class="text-muted-foreground">A clear description of your complaint</span>
+          </li>
+          <li class="flex items-start space-x-2">
+            <span class="text-primary mt-1">•</span>
+            <span class="text-muted-foreground">The outcome you would like to see</span>
+          </li>
+        </ul>
+        <p class="text-muted-foreground leading-relaxed">
+          We will acknowledge receipt of your complaint within one working day and aim to provide a full response within five working days. If we need more time, we’ll let you know and keep you updated.
+        </p>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="space-y-4">
+        <h2>2. Escalation and Appeal Process</h2>
+        <p class="text-muted-foreground leading-relaxed">
+          If you are not satisfied with the initial response to your complaint, you may request that it be escalated. Your complaint will then be reviewed by a senior member of our management team.
+        </p>
+        <p class="text-muted-foreground leading-relaxed">
+          To escalate your complaint, please email admin@domainfinder.uk with the subject line: Complaint Escalation.
+        </p>
+        <p class="text-muted-foreground leading-relaxed">
+          We will acknowledge your escalation within two working days and aim to provide a final response within five working days.
+        </p>
+        
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}
